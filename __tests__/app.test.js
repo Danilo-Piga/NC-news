@@ -12,6 +12,7 @@ afterAll(async () => {
   return await db.end();
 });
 
+
 describe("GET /api/topics", () => {
   test("responds with a 200 status code and array of topic objects with slug and description properties", async () => {
     const response = await request(app).get("/api/topics");
