@@ -3,6 +3,7 @@ const app = require("../app");
 const db = require("../db/connection");
 const seed = require("../db/seeds/seed");
 const testData = require("../db/data/test-data/index");
+const endpoints = require("../endpoints.json");
 
 beforeEach(async () => {
   await seed(testData);
@@ -20,5 +21,13 @@ describe("GET /api/topics", () => {
     expect(
       response.body.every((topic) => topic.slug && topic.description)
     ).toBe(true);
+  });
+});
+
+describe("GET /api", () => {
+  test("Returns an object describing all the available endpoints on your API", async () => {
+    const response = await request(app).get("/api");
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(endpoints);
   });
 });
