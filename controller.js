@@ -1,8 +1,9 @@
-const topicsModel =require('./model')
+const { topics } = require("./model");
 
 function getTopics(req, res) {
-    const endpoint = req.params
-    res.status(200).send() 
+  return topics().then((topicsData) => {
+    res.status(200).send(topicsData);
+  });
 }
 
-module.exports = { getTopics }
+module.exports = { getTopics };

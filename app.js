@@ -1,15 +1,9 @@
-const express = require('express')
-const app = express()
+const express = require("express");
+const { getTopics } = require("./controller");
+const app = express();
 
-app.use(express.json())
+// app.use(express.json())
 
-app.get('/api/topics', (req, res) => {
-    res.status(200).send([])
-});
+app.get("/api/topics", getTopics);
 
-
-  app.listen(9090, () => {
-    console.log("Server is listening on port 9090...")
-}) 
-
-module.exports = app
+module.exports = app;
