@@ -14,7 +14,6 @@ afterAll(async () => {
   return await db.end();
 });
 
-
 describe("GET /api/topics", () => {
   test("responds with a 200 status code and array of topic objects with slug and description properties", async () => {
     const response = await request(app).get("/api/topics");
@@ -26,7 +25,6 @@ describe("GET /api/topics", () => {
   });
 });
 
-
 describe("GET /api", () => {
   test("Returns an object describing all the available endpoints on your API", async () => {
     const response = await request(app).get("/api");
@@ -35,17 +33,26 @@ describe("GET /api", () => {
   });
 });
 
-
 describe("GET /api/articles/:article_id", () => {
   test("should return the article object for a valid article_id", async () => {
     const articleId = 1;
-    const article = await getArticleById(articleId);
-    expect(article).toBeDefined();
-    expect(article.article_id).toBe(articleId);
+    const expectedArticle = await getArticleById(articleId);
+    expectedArticle.created_at = new Date(
+      expectedArticle.created_at
+    ).toISOString();
+    const response = await request(app).get(`/api/articles/${articleId}`);
+    expect(response.status).toBe(200);
+    expect(response.body.article).toEqual(expectedArticle);
   });
-  test("should throw an error for an invalid article_id", async () => {
-    const invalidArticleId = 1000;
-    await expect(getArticleById(invalidArticleId)).rejects.toThrow(
+
+  test("should return 404 for an invalid article_id", async () => {
+    const invalidArticleId = 999;
+    const response = await request(app).get(
+      `/api/articles/${invalidArticleId}`
+    );
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe(
       `Article with ID ${invalidArticleId} not found.`
     );
   });
