@@ -1,14 +1,14 @@
-const { topics } = require("./model");
-const endpoint =require("./endpoints.json") 
+// const { topics } = require("./Models/getTopics.model");
+// const endpoint =require("./endpoints.json") 
 
-function getTopics(req, res) {
-  return topics().then((topicsData) => {
-    res.status(200).send(topicsData);
-  });
-}
+// function getTopics(req, res) {
+//   return topics().then((topicsData) => {
+//     res.status(200).send(topicsData);
+//   });
+// }
 
-function getEndPoints(req, res) {
-    res.status(200).json(endpoint)
-}
+// function getEndPoints(req, res) {
+//     res.status(200).json(endpoint)
+// }
 
-module.exports = { getTopics, getEndPoints };
+// module.exports = { getTopics, getEndPoints };
