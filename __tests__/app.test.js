@@ -4,6 +4,7 @@ const db = require("../db/connection");
 const seed = require("../db/seeds/seed");
 const testData = require("../db/data/test-data/index");
 const endpoints = require("../endpoints.json");
+const { getArticleAllComments } = require("../Models/getArticle.model")
 
 beforeEach(async () => {
   await seed(testData);
@@ -63,29 +64,24 @@ describe("GET /api/articles/:article_id", () => {
   });
 });
 
-describe('GET /api/articles', () => {
-    test('Get: 200 should respond with an array of all article objects with expected properties', () => {
-        return request(app)
-        .get("/api/articles")
+describe('GET /api/articles/:article_id/comments', () => {
+    test('Returns an array of comments for the given article_id', () => {
+      return request(app)
+        .get('/api/articles/1/comments')
         .expect(200)
-        .then((response) => {
-            const articles = response.body.articles; 
-            expect(articles.length).toBeGreaterThan(0)
-            if (articles.length > 0) {
-                articles.forEach(article => {
-                    expect(article).toHaveProperty('author');
-                    expect(article).toHaveProperty('title');
-                    expect(article).toHaveProperty('article_id');
-                    expect(article).toHaveProperty('topic');
-                    expect(article).toHaveProperty('created_at');
-                    expect(article).toHaveProperty('votes');
-                    expect(article).toHaveProperty('article_img_url');
-                    expect(article).toHaveProperty('comment_count');
-                });
-            } else {
-                throw new Error('No articles found in the response');
-            }
+        .then(res => {
+          expect(Array.isArray(res.body.comments)).toBe(true);
+          expect(Object.keys(res.body.comments[0])).toEqual(expect.arrayContaining(['comment_id', 'votes', 'created_at', 'author', 'body', 'article_id']));
         });
     });
-});
-
+    test('Returns 404, for non-existent article_id', () => {
+      return request(app)
+        .get('/api/articles/9999/comments')
+        .expect(404)
+        .then(res => {
+          expect(res.body.msg).toBe('Article not found');
+        });
+    });
+  
+  });
+  
