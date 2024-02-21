@@ -1,7 +1,14 @@
-const { getArticle } = require("./getArticleId.controller");
-
 exports.errorHandler = (err, req, res, next) => {
-  const status = err.status || 404;
-  const message = err.message || `Not found: ${err}`;
-  res.status(status).json({ message });
+    let status;
+    let message;
+
+    if (err.status === 404) {
+        status = 404;
+        message = err.message || 'Resource not found';
+    } else {
+        status = err.status || 500;
+        message = err.message || 'Internal server error';
+    }
+
+    res.status(status).json({ message });
 };

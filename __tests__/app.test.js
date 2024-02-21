@@ -4,7 +4,6 @@ const db = require("../db/connection");
 const seed = require("../db/seeds/seed");
 const testData = require("../db/data/test-data/index");
 const endpoints = require("../endpoints.json");
-const { getArticleById } = require("../Models/getArticleById.model");
 
 beforeEach(async () => {
   await seed(testData);
@@ -36,13 +35,19 @@ describe("GET /api", () => {
 describe("GET /api/articles/:article_id", () => {
   test("should return the article object for a valid article_id", async () => {
     const articleId = 1;
-    const expectedArticle = await getArticleById(articleId);
-    expectedArticle.created_at = new Date(
-      expectedArticle.created_at
-    ).toISOString();
     const response = await request(app).get(`/api/articles/${articleId}`);
     expect(response.status).toBe(200);
-    expect(response.body.article).toEqual(expectedArticle);
+    expect(response.body.article).toEqual({
+        title: "Living in the shadow of a great man",
+        topic: "mitch",
+        author: "butter_bridge",
+        body: "I find this existence challenging",
+        created_at: '2020-07-09T20:11:00.000Z',
+        votes: 100,
+        article_img_url:
+          "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
+          article_id: 1
+      }, );
   });
 
   test("should return 404 for an invalid article_id", async () => {
@@ -57,3 +62,30 @@ describe("GET /api/articles/:article_id", () => {
     );
   });
 });
+
+describe('GET /api/articles', () => {
+    test('Get: 200 should respond with an array of all article objects with expected properties', () => {
+        return request(app)
+        .get("/api/articles")
+        .expect(200)
+        .then((response) => {
+            const articles = response.body.articles; 
+            expect(articles.length).toBeGreaterThan(0)
+            if (articles.length > 0) {
+                articles.forEach(article => {
+                    expect(article).toHaveProperty('author');
+                    expect(article).toHaveProperty('title');
+                    expect(article).toHaveProperty('article_id');
+                    expect(article).toHaveProperty('topic');
+                    expect(article).toHaveProperty('created_at');
+                    expect(article).toHaveProperty('votes');
+                    expect(article).toHaveProperty('article_img_url');
+                    expect(article).toHaveProperty('comment_count');
+                });
+            } else {
+                throw new Error('No articles found in the response');
+            }
+        });
+    });
+});
+
