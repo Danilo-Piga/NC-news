@@ -1,6 +1,6 @@
 const db = require("../db/connection");
 
-exports.getArticlesWithComments = async () => {
+exports.getArticlesCommentCount = async () => {
   try {
     const articles = await db.query(`
     SELECT articles.author, 
@@ -18,21 +18,32 @@ exports.getArticlesWithComments = async () => {
     `);
     return articles.rows;
   } catch (error) {
-      throw error;
-    }
-  };
+    throw error;
+  }
+};
 
-  exports.getArticleById = async (article_id) => {
-    return db
-      .query("SELECT * FROM articles WHERE article_id = $1", [article_id])
-      .then((result) => {
-        if (result.rows.length === 0) {
-          return Promise.reject({
-            status: 404,
-            message: `Article with ID ${article_id} not found.`,
-          });
-        }
-        return result.rows[0];
-      });
-  };
-  
+exports.getArticleById = async (article_id) => {
+  return db
+    .query("SELECT * FROM articles WHERE article_id = $1", [article_id])
+    .then((result) => {
+      if (result.rows.length === 0) {
+        return Promise.reject({
+          status: 404,
+          message: `Article with ID ${article_id} not found.`,
+        });
+      }
+      return result.rows[0];
+    });
+};
+
+exports.getAllComments = async (articleId) => {
+  try {
+    const comments = await db.query(
+      "SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC",
+      [articleId]
+    );
+    return comments.rows;
+  } catch (error) {
+    throw error;
+  }
+};
