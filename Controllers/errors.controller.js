@@ -21,7 +21,7 @@ exports.errorHandler = (err, req, res, next) => {
       break;
     case "MissingParameterError":
       status = 400;
-      message = err.message;
+      message = err.message || "Bad Request";
       break;
     default:
       if (err.code === "23503") {

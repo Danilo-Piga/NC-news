@@ -206,3 +206,19 @@ describe("PATCH /api/articles/:article_id", () => {
     expect(response.body.error).toBe("inc_votes parameter is required");
   });
 });
+
+describe("DELETE /api/comments/:comment_id", () => {
+  test("should delete the comment and respond with status 204", async () => {
+    const response = await request(app)
+      .delete("/api/comments/1")
+      .expect(204);
+    expect(response.status).toBe(204);
+  });
+
+  test("should return 404 if the comment does not exist", async () => {
+    const response = await request(app)
+      .delete("/api/comments/9999")
+      .expect(404);
+    expect(response.body.message).toBe("Comment not found");
+  });
+});
