@@ -2,6 +2,7 @@ const {
   getArticlesCommentCount,
   getArticleById,
   getAllComments,
+  addCommentToArticle,
 } = require("../Models/getArticle.model");
 
 exports.getArticleId = async (req, res, next) => {
@@ -47,4 +48,20 @@ exports.getArticleComments = async (req, res, next) => {
   }
 };
 
-
+exports.addOneCommentToArticle = async (req, res, next) => {
+  const { article_id } = req.params;
+  try {
+    const { username, body } = req.body;
+    if (!username || !body) {
+      return res.status(400).json({ error: "Username and body are required" });
+    }
+    const article = await getArticleById(article_id);
+    if (!article) {
+      return res.status(404).json({ msg: "Article not found" });
+    }
+    const comment = await addCommentToArticle(article_id, username, body);
+    res.status(201).json(comment);
+  } catch (error) {
+    next(error);
+  }
+};

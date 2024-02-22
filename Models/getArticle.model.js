@@ -47,3 +47,18 @@ exports.getAllComments = async (articleId) => {
     throw error;
   }
 };
+
+exports.addCommentToArticle = async (article_id, username, body) => {
+  try {
+    const result = await db.query(
+      "INSERT INTO comments (article_id, author, body) VALUES ($1, $2, $3) RETURNING *",
+      [article_id, username, body]
+    );
+    if (result.rows.length === 0) {
+      throw { status: 500, message: "Failed to add comment to article" };
+    }
+    return result.rows[0];
+  } catch (error) {
+    throw error;
+  }
+};
