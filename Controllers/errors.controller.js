@@ -20,6 +20,10 @@ exports.errorHandler = (err, req, res, next) => {
       status = 409;
       message = err.message || "Conflict";
       break;
+    case "MissingParameterError":
+      status = 400;
+      message = err.message;
+      break;
     default:
       if (err.code === "23503") {
         status = 404;
