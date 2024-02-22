@@ -1,6 +1,4 @@
 \c nc_news_test
 
-SELECT * 
-FROM comments 
-WHERE article_id = ?
-ORDER BY created_at DESC
+INSERT INTO comments (article_id, username, body) VALUES ($1, $2, $3) RETURNING *,
+[article_id, username, body]
