@@ -9,6 +9,7 @@ const {
 } = require("./Controllers/getArticle.controller");
 const { updateArticle } = require("./Controllers/updateArticle.controller");
 const { deleteComment } =require("./Controllers/deleteComment.controller")
+const { getAllUsers } = require("./Controllers/user.controller")
 
 const { errorHandler } = require("./Controllers/errors.controller");
 
@@ -23,6 +24,7 @@ app.get("/api/articles/:article_id/comments", getArticleComments);
 app.post("/api/articles/:article_id/comments", addOneCommentToArticle);
 app.patch("/api/articles/:article_id", updateArticle);
 app.delete("/api/comments/:comment_id", deleteComment)
+app.get("/api/users", getAllUsers);
 
 app.use(errorHandler);
 

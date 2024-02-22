@@ -222,3 +222,36 @@ describe("DELETE /api/comments/:comment_id", () => {
     expect(response.body.message).toBe("Comment not found");
   });
 });
+
+describe("GET /api/users", () => {
+  test("should respond with a successful status code", async () => {
+    const response = await request(app).get("/api/users");
+    expect(response.status).toBe(200);
+  });
+  test("should respond with an array of users with expected properties of username, name, and avatar_url", async () => {
+    const response = await request(app).get("/api/users");
+
+    expect(response.status).toBe(200);
+    expect(Array.isArray(response.body.users)).toBe(true);
+    expect(response.body.users.every(user => (
+      user.hasOwnProperty("username") &&
+      user.hasOwnProperty("name") &&
+      user.hasOwnProperty("avatar_url")
+    ))).toBe(true);
+  });
+  test("should respond with JSON content type", async () => {
+    const response = await request(app).get("/api/users");
+    expect(response.type).toMatch(/json/);
+  });
+  test("should return consistent data across multiple requests", async () => {
+    const response1 = await request(app).get("/api/users");
+    const response2 = await request(app).get("/api/users");
+    expect(response1.body.users).toEqual(response2.body.users);
+  });
+  test("should include a specific user in the response", async () => {
+    const specificUsername = "icellusedkars";
+    const response = await request(app).get("/api/users");
+    const foundUser = response.body.users.find(user => user.username === specificUsername);
+    expect(foundUser).toBeDefined();
+  });
+});
