@@ -1,5 +1,4 @@
 exports.errorHandler = (err, req, res, next) => {
-  console.log(err);
   let status = err.status || 500;
   let message = err.message || "Internal server error";
 

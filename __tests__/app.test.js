@@ -130,7 +130,6 @@ describe("POST /api/articles/:article_id/comments", () => {
       .expect(201);
 
     expect(response.body).toMatchObject(newAuthor);
-    console.log(response.body);
   });
   test(`should throw a 404 error if username doesn't exist`, async () => {
     const articleId = 1;
@@ -171,7 +170,6 @@ describe("PATCH /api/articles/:article_id", () => {
       .expect(200);
 
     expect(response.body.votes).toBe(110);
-    console.log(response.body.votes)
   });
 
   test("should decrement the article's vote count", async () => {
