@@ -1,5 +1,4 @@
 exports.errorHandler = (err, req, res, next) => {
-  console.log(err);
   let status = err.status || 500;
   let message = err.message || "Internal server error";
 
@@ -19,6 +18,10 @@ exports.errorHandler = (err, req, res, next) => {
     case "ConflictError":
       status = 409;
       message = err.message || "Conflict";
+      break;
+    case "MissingParameterError":
+      status = 400;
+      message = err.message;
       break;
     default:
       if (err.code === "23503") {

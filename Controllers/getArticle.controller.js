@@ -2,7 +2,7 @@ const {
   getArticlesCommentCount,
   getArticleById,
   getAllComments,
-  addCommentToArticle,
+  addCommentToArticle
 } = require("../Models/getArticle.model");
 
 exports.getArticleId = async (req, res, next) => {
@@ -63,5 +63,6 @@ exports.addOneCommentToArticle = async (req, res, next) => {
     res.status(201).json(comment);
   } catch (error) {
     next(error);
-  }
+  }  
 };
+

@@ -7,6 +7,7 @@ const {
   getArticleComments,
   addOneCommentToArticle,
 } = require("./Controllers/getArticle.controller");
+const { updateArticle } = require("./Controllers/updateArticle.controller");
 
 const { errorHandler } = require("./Controllers/errors.controller");
 
@@ -19,6 +20,7 @@ app.get("/api/articles/:article_id", getArticleId);
 app.get("/api/articles", getArticles);
 app.get("/api/articles/:article_id/comments", getArticleComments);
 app.post("/api/articles/:article_id/comments", addOneCommentToArticle);
+app.patch("/api/articles/:article_id", updateArticle);
 
 app.use(errorHandler);
 

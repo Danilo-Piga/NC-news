@@ -7,6 +7,7 @@ const endpoints = require("../endpoints.json");
 const {
   getArticleAllComments,
   addCommentToArticle,
+  updateArticleById,
 } = require("../Models/getArticle.model");
 
 beforeEach(async () => {
@@ -129,7 +130,6 @@ describe("POST /api/articles/:article_id/comments", () => {
       .expect(201);
 
     expect(response.body).toMatchObject(newAuthor);
-    console.log(response.body);
   });
   test(`should throw a 404 error if username doesn't exist`, async () => {
     const articleId = 1;
@@ -157,5 +157,52 @@ describe("POST /api/articles/:article_id/comments", () => {
       .expect(400);
 
     expect(res2.body.error).toBe("Username and body are required");
+  });
+});
+
+describe("PATCH /api/articles/:article_id", () => {
+  test("should update the article's vote count", async () => {
+    const articleId = 1;
+    const newVote = { inc_votes: 10 };
+    const response = await request(app)
+      .patch(`/api/articles/${articleId}`)
+      .send(newVote)
+      .expect(200);
+
+    expect(response.body.votes).toBe(110);
+  });
+
+  test("should decrement the article's vote count", async () => {
+    const articleId = 1;
+    const newVote = { inc_votes: -50 };
+    const response = await request(app)
+      .patch(`/api/articles/${articleId}`)
+      .send(newVote)
+      .expect(200);
+
+    expect(response.body.votes).toBe(50);
+  });
+
+  test("should return 404 for an invalid article_id", async () => {
+    const invalidArticleId = 999;
+    const newVote = { inc_votes: 10 };
+    const response = await request(app)
+      .patch(`/api/articles/${invalidArticleId}`)
+      .send(newVote)
+      .expect(404);
+
+    expect(response.body.message).toBe(
+      `Article with ID ${invalidArticleId} not found.`
+    );
+  });
+
+  test("should return 400 for missing inc_votes in request body", async () => {
+    const articleId = 1;
+    const response = await request(app)
+      .patch(`/api/articles/${articleId}`)
+      .send({})
+      .expect(400);
+
+    expect(response.body.error).toBe("inc_votes parameter is required");
   });
 });
