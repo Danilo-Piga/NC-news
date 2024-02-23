@@ -23,6 +23,10 @@ exports.errorHandler = (err, req, res, next) => {
       status = 400;
       message = err.message || "Bad Request";
       break;
+    case "NoArticlesFoundError":
+      status = 404;
+      message = err.message || "No articles found for the specified topic";
+      break;
     default:
       if (err.code === "23503") {
         status = 404;
