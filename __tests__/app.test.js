@@ -52,6 +52,7 @@ describe("GET /api/articles/:article_id", () => {
       article_img_url:
         "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
       article_id: 1,
+      comment_count: "11",
     });
   });
 
