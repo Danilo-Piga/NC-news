@@ -44,6 +44,3 @@ To run this project, you'll need the following minimum versions:
 
 Node.js (version 18.17.1)
 PostgreSQL (version 14.10)
-
-## Usage
-[Provide usage instructions, such as how to start the server or access the endpoints.]
