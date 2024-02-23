@@ -259,7 +259,7 @@ describe("GET /api/users", () => {
 describe("GET /api/articles", () => {
   test("should respond with a successful status code", async () => {
     const response = await request(app).get("/api/articles");
-    expect(response.status).toBeGreaterThanOrEqual(200);
+    expect(response.status).toBe(200);
     expect(response.status).toBeLessThan(300);
   });
   test("should return articles for a valid topic query", async () => {
@@ -270,7 +270,7 @@ describe("GET /api/articles", () => {
   });
   test("should respond with a successful status code when filtered by topic", async () => {
     const response = await request(app).get("/api/articles?topic=football");
-    expect(response.status).toBeGreaterThanOrEqual(200);
+    expect(response.status).toBe(200);
     expect(response.status).toBeLessThan(300);
   });
   test("should return all articles if topic query is omitted", async () => {
