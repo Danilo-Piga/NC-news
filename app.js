@@ -5,7 +5,7 @@ const {
   getArticles,
   getArticleId,
   getArticleComments,
-  addOneCommentToArticle,
+  addOneCommentToArticle, getArticlesFilteredTopic
 } = require("./Controllers/getArticle.controller");
 const { updateArticle } = require("./Controllers/updateArticle.controller");
 const { deleteComment } =require("./Controllers/deleteComment.controller")
@@ -25,6 +25,7 @@ app.post("/api/articles/:article_id/comments", addOneCommentToArticle);
 app.patch("/api/articles/:article_id", updateArticle);
 app.delete("/api/comments/:comment_id", deleteComment)
 app.get("/api/users", getAllUsers);
+app.get("/api/articles", getArticlesFilteredTopic)
 
 app.use(errorHandler);
 

@@ -62,3 +62,15 @@ exports.addCommentToArticle = async (article_id, username, body) => {
     throw error;
   }
 };
+
+exports.getArticlesByTopic = async (topic) => {
+  try {
+    const articles = await db.query(`
+      SELECT * FROM articles
+      WHERE topic = $1
+    `, [topic]);
+    return articles.rows;
+  } catch (error) {
+    throw error;
+  }
+};
