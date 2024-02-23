@@ -2,7 +2,8 @@ const {
   getArticlesCommentCount,
   getArticleById,
   getAllComments,
-  addCommentToArticle, getArticlesByTopic
+  addCommentToArticle,
+  getArticlesByTopic,
 } = require("../Models/getArticle.model");
 
 exports.getArticleId = async (req, res, next) => {
@@ -63,7 +64,7 @@ exports.addOneCommentToArticle = async (req, res, next) => {
     res.status(201).json(comment);
   } catch (error) {
     next(error);
-  }  
+  }
 };
 
 exports.getArticlesFilteredTopic = async (req, res, next) => {
@@ -71,11 +72,12 @@ exports.getArticlesFilteredTopic = async (req, res, next) => {
   try {
     const articles = await Article.find({ topic: topic });
     if (articles.length === 0) {
-      return res.status(404).json({ message: `No articles found for topic: ${topic}` });
+      return res
+        .status(404)
+        .json({ message: `No articles found for topic: ${topic}` });
     }
     res.status(200).json({ articles });
   } catch (error) {
     next(error);
   }
 };
-

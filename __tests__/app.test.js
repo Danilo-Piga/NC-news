@@ -210,9 +210,7 @@ describe("PATCH /api/articles/:article_id", () => {
 
 describe("DELETE /api/comments/:comment_id", () => {
   test("should delete the comment and respond with status 204", async () => {
-    const response = await request(app)
-      .delete("/api/comments/1")
-      .expect(204);
+    const response = await request(app).delete("/api/comments/1").expect(204);
     expect(response.status).toBe(204);
   });
 
@@ -234,11 +232,14 @@ describe("GET /api/users", () => {
 
     expect(response.status).toBe(200);
     expect(Array.isArray(response.body.users)).toBe(true);
-    expect(response.body.users.every(user => (
-      user.hasOwnProperty("username") &&
-      user.hasOwnProperty("name") &&
-      user.hasOwnProperty("avatar_url")
-    ))).toBe(true);
+    expect(
+      response.body.users.every(
+        (user) =>
+          user.hasOwnProperty("username") &&
+          user.hasOwnProperty("name") &&
+          user.hasOwnProperty("avatar_url")
+      )
+    ).toBe(true);
   });
   test("should respond with JSON content type", async () => {
     const response = await request(app).get("/api/users");
@@ -252,7 +253,9 @@ describe("GET /api/users", () => {
   test("should include a specific user in the response", async () => {
     const specificUsername = "icellusedkars";
     const response = await request(app).get("/api/users");
-    const foundUser = response.body.users.find(user => user.username === specificUsername);
+    const foundUser = response.body.users.find(
+      (user) => user.username === specificUsername
+    );
     expect(foundUser).toBeDefined();
   });
 });
