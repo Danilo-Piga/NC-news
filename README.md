@@ -13,7 +13,7 @@ To get started with this project, follow these steps:
 
 1. Clone the repository:
 
-```bash 
+```console 
 git clone https://github.com/Danilo-Piga/nc-news
 ```
 
@@ -33,20 +33,20 @@ Development environment:
 
 3. Install dependencies:
 
-```bash
+```console
 npm install
 ```
 4. Setup database
-```bash
+```console
 npm run setup-dbs
 ```
 5. Seed the local database:
-```bash
+```console
 npm run seed
 ```
 
 6. Run tests:
-```bash
+```console
 npm test app.test.js   
 ```
 
