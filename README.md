@@ -11,7 +11,7 @@ My API encompasses various types of data essential for application functionality
 ## Installation and Setup 
 To get started with this project, follow these steps:
 
-1. Clone the repository:
+1. Fork and clone the repository:
 
 ```console 
 git clone https://github.com/Danilo-Piga/nc-news
@@ -50,7 +50,7 @@ npm run seed
 npm test app.test.js   
 ```
 
-## Requirements
+## Minimum requirements
 To run this project, you'll need the following minimum versions:
 
 **Node.js** (version 18.17.1)
